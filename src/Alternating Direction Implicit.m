@@ -20,7 +20,13 @@ x_j=del_x*index_x;
 y_k=del_y*index_y;
 u_x_0=(y_k).^3;  %Boundary condition in x dimension at x=0
 u_x_2pi=((y_k).^2)*cos(y_k); %Boundary condition in x dimension at x=2pi
-u_y_2pi=u_x_0(N_y+2)+(x_j/(2*pi))*(u_x_2pi(N_y+2)-u_x_0(N_y+2));
+u_y_2pi=u_x_0(N_y+2)+(x_j/(2*pi))*(u_x_2pi(N_y+2)-u_x_0(N_y+2)); %Boundary condition in y dimension at y=2pi
+alpha_1=a;
+Alpha=[alpha_1,zeros(1,total_elements-1)];
+
+
+right_side      
+
 
 
 
