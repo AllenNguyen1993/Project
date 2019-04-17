@@ -1,5 +1,6 @@
 N_x=input('Please enter the number of internal points in x direction:  ');
 N_y=input('Please enter the nubmer of internal points in y direction:  ');
+total_elements=N_x*N_y; %Total number of elements u, not counting the u at boundary (add 1 to index to account for that u).
 time=input('Please enter the amount of running time: '); % Setting the time interval this code will run.
 T_points=input('Please enter the number of internal points for time dimension: ');
 del_x=(2*pi)/(N_x+1);  %N_x+1 is the number of segments resulting from the existence of N_x internal points in x diection.
@@ -8,5 +9,7 @@ del_t=time/(T_points+1) %T_points+1 is the numer of segments resulting from the 
 lamda=del_t/(del_x)^2;
 gamma=del_t/(del_y)^2;
 a= 1+lamda; % a value is constant in space and time dimensions
-b=-lamda/2;
+b=[0,(-lamda/2)*ones(1,total_elements-1)];
+c=[-lamda,(-lamda/2)*ones(1,total_elements-2)];
+
 
