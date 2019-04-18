@@ -29,9 +29,9 @@ Alpha=[alpha_1,zeros(1,total_elements-1)];
 right_side=zeros(1,total_elements);
 current_time=0;
 
-while current_time<=time
-    for A=N_y+1:N_y+1:total_elements+1;
-        right_side(A)=(gamma/2)*u
+while current_time<=
+for A=N_y+1:N_y+1:total_elements+1;
+    right_side(A)=(gamma/2)*u
 
 
 
