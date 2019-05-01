@@ -18,26 +18,22 @@ index_x=0:N_x+1;
 index_y=0:N_y+1;
 x_j=del_x*index_x; 
 y_k=del_y*index_y;
-u_x_0=(y_k).^3;  %Boundary condition in x dimension at x=0
-u_x_2pi=((y_k).^2)*cos(y_k); %Boundary condition in x dimension at x=2pi
+u_x_0=((y_k).^3).';  %Boundary condition in x dimension at x=0
+u_x_2pi=(((y_k).^2).*cos(y_k)).'; %Boundary condition in x dimension at x=2pi
 u_y_2pi=u_x_0(N_y+2)+(x_j/(2*pi))*(u_x_2pi(N_y+2)-u_x_0(N_y+2)); %Boundary condition in y dimension at y=2pi
-u_numerical=zeros(N_y+2,N_x+2,2)]; 
-u_numerical(:,1,:)=u_x_0.';
-u_numerical(:,N_x+2,:)=u_x_2pi;
-%First page of this 3D matrix represents u values at t=n (current time).
-%Second page of this 3D matrix represents u values at t=n+1/2.
+u_numerical_current=[u_x_0(1:N_y+1),zeros(N_y+1,N_x),u_x_2pi(1:N_y+1);u_y_2pi]; %u distribution at current time
+u_numerical_plus_half=[u_x_0([1:n,zeros(N_y+2,N_x),u_x_2pi;u_y_2pi];%u distribution at 1/2 time step from current time
 alpha_1=a;
 Alpha=[alpha_1,zeros(1,total_elements-1)];
 right_side=zeros(1,total_elements);
 current_time=0;
-
 %for A=N_y+1:N_y+1:total_elements+1;
         %right_side(A)=(gamma/2)*u(
         
 %while current_time<=time
-    %for B=
-        %for C= 
-            %right_side(C)=(gamma/2)*u_numerical(B,C-1)+(1+gamma)*u_numerical(B,C,1)+(gamma/2)*u_numerical(B,C+1,1);
+    %for B=2:N_x+1
+        %for C=1:N_y+1 
+            %right_side(C)=(gamma/2)*u_numerical_current(C,B-1)+(1+gamma)*u_numerical_current(C,B)+(gamma/2)*u_numerical_current(C,B+1);
             
 
 
