@@ -23,7 +23,6 @@ y_j=del_y*index_y;
 u_x_0=((y_j ).^3).';  %Boundary condition in x dimension at x=0
 u_x_2pi=(((y_j).^2).*cos(y_j)).'; %Boundary condition in x dimension at x=2pi
 u_y_2pi=u_x_0(N_y+2)+(x_k/(2*pi))*(u_x_2pi(N_y+2)-u_x_0(N_y+2)); %Boundary condition in y dimension at y=2pi
-u_num_old=[[u_x_0(1:N_y+1),zeros(N_y+1,n
 u_num_current=[[u_x_0(1:N_y+1),zeros(N_y+1,N_x),u_x_2pi(1:N_y+1)];u_y_2pi ]; %u distribution at current time
 u_num_plus_half=[[u_x_0(1:N_y+1),zeros(N_y+1,N_x),u_x_2pi(1:N_y+1)];u_y_2pi];%u distribution at 1/2 time step computed from current time
 u_array=zeros(total_elements,1); % this arranges numerical u in an column array.
@@ -31,7 +30,6 @@ alpha_1=a;
 Alpha=[alpha_1;zeros(total_elements-1,1)];
 right_side=zeros(N_x,N_y+1);
 current_time=0;
-
 
 for I=2:total_elements
     Alpha(I)=a-(b_c_squared/Alpha(I-1));
@@ -49,7 +47,7 @@ while average_error<= %0.001
     
     for j=2
         for k= 
-        right_side(j,k)=(gamma/2)*u_num_current(k-1,j)  +(1-gamma)*u_num_current(k,j)+(gamma/2)*u_num_current(k+1,j);
+        right_side(j,k)=(gamma/2)*u_num_current(k-1,j)+(1-gamma)*u_num_current(k,j)+(gamma/2)*u_num_current(k+1,j);
         end
     end
     
@@ -66,7 +64,11 @@ while average_error<= %0.001
         u_array(J)=(g(J)-(b_and_c*u_array(J+1)))/Alpha(J);
     end
     
-    u_num_plus_half([1:N_y+1],[2:N_x+1)=(reshape(u_array,N_x,N_y+1)).';
+    u_num_plus_half([1:N_y+1],[2:N_x+1])=(reshape(u_array,N_x,N_y+1)).';
+    u_num_old=u_num_current;
+    
+    
+    
     
     
     

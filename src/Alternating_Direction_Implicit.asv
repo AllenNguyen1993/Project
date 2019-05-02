@@ -32,7 +32,6 @@ Alpha=[alpha_1;zeros(total_elements-1,1)];
 right_side=zeros(N_x,N_y+1);
 current_time=0;
 
-
 for I=2:total_elements
     Alpha(I)=a-(b_c_squared/Alpha(I-1));
 end
@@ -49,7 +48,7 @@ while average_error<= %0.001
     
     for j=2
         for k= 
-        right_side(j,k)=(gamma/2)*u_num_current(k-1,j)  +(1-gamma)*u_num_current(k,j)+(gamma/2)*u_num_current(k+1,j);
+        right_side(j,k)=(gamma/2)*u_num_current(k-1,j)+(1-gamma)*u_num_current(k,j)+(gamma/2)*u_num_current(k+1,j);
         end
     end
     
@@ -66,7 +65,10 @@ while average_error<= %0.001
         u_array(J)=(g(J)-(b_and_c*u_array(J+1)))/Alpha(J);
     end
     
-    u_num_plus_half([1:N_y+1],[2,N(reshape(u_array,N_x,N_y+1))
+    u_num_plus_half([1:N_y+1],[2:N_x+1])=(reshape(u_array,N_x,N_y+1)).';
+    
+    
+    
     
     
 
