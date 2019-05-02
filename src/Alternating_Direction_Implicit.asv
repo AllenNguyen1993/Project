@@ -13,7 +13,7 @@ del_x=(b_x)/(N_x+1);  %N_x+1 is the number of segments resulting from the existe
 del_y=(b_y)/(N_y+1);  %N_y+1 is the number of segments resulting from the existence of N_y internal points in y drection.
 lamda=del_t/(del_x)^2;
 gamma=del_t/(del_y)^2;
-a= 1+lamda; % a value is constant in space and time dimensions
+a=1+lamda; % a value is constant in space and time dimensions
 b_and_c=-lamda/2;
 index_x=0:N_x+1;
 index_y=0:N_y+1;
@@ -29,15 +29,31 @@ alpha_1=a;
 Alpha=[alpha_1;zeros(total_elements-1,1)];
 right_side=zeros(N_x,N_y+1);
 current_time=0;
+b_c_squared=(b_and_c)^2;
 
+for I=2:total_elements
+    Alpha(I)=a-(b_c_squared/Alpha(I-1));
+end
+    
 while average_error<= %0.001
     current_time=current_time+del_t
-    right_side(1,1)=gamma*u_num_current(1  ,1)+(1-gamma)*u_num_current(1,1)
-    right_side(N_x,1)=
+    right_side(1,1)=gamma*u_num_current(2,2)+(1-gamma)*u_num_current(1,2)+(lamda/2)*u_num_current(1,1);
+    right_side(N_x,1)=gamma*u_num_current(2,N_x+1)+(1-gamma)*u_num_current(1,N_x+1)+(lamda/2)*u_num_current(1,N_x+2);
+    
     for i=2:N_y+1
         right_side(1,i)=(gamma/2)*u_num_current(i-1,2)+(1-gamma)*u_num_current(i,2)+(gamma/2)*u_num_current(i+1,2)+(lamda/2)*u_num_current(i,1);
-        right_side(N_x,i)=(gamma/2)*u_numerical_current(i-1,N_x+1)+(1-gamma)*u_num_current(i,N_x+1)+(gamma/2)*u_num_current(i+1,N_x+1)+(lamda/2)*u_num_current(i,N_x+2);
+        right_side(N_x,i)=(gamma/2)*u_num_current(i-1,N_x+1)+(1-gamma)*u_num_current(i,N_x+1)+(gamma/2)*u_num_current(i+1,N_x+1)+(lamda/2)*u_num_current(i,N_x+2);
     end
+    
+    for j=2
+        for k= 
+        right_side(j,k)=(gamma/2)*u_num_current(k-1,j)+(1-gamma)*u_num_current(k,j)+(gamma/2)*u_num_current(k+1,j);
+        end
+    end
+    
+    right_side_matrix=right_side(:);
+    g_1=right_side(1);
+    
 
 
  
