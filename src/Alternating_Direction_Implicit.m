@@ -35,7 +35,7 @@ for I=2:total_elements
     Alpha(I)=a-(b_c_squared/Alpha(I-1));
 end
     
-while average_error<= %0.001
+while average_difference<= %0.001
     current_time=current_time+del_t
     right_side(1,1)=gamma*u_num_current(2,2)+(1-gamma)*u_num_current(1,2)+(lamda/2)*u_num_current(1,1);
     right_side(N_x,1)=gamma*u_num_current(2,N_x+1)+(1-gamma)*u_num_current(1,N_x+1)+(lamda/2)*u_num_current(1,N_x+2);
