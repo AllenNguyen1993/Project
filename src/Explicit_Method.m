@@ -39,5 +39,7 @@ while average_difference>e^-18
     diffence=abs(u_num_current-u_num_old);
     average_difference=(1/total_elements)*sum(diffence(:));
 end
+[X,Y]=meshgrid(x_k,y_j);
+surf(X,Y,u_num_current)
 
 
