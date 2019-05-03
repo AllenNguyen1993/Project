@@ -1,0 +1,11 @@
+a_x=0;
+a_y=0;
+b_x=2*pi;
+b_y=2*pi;
+N_x=input('Please enter the number of internal points in x direction:  ');
+N_y=input('Please enter the nubmer of internal points in y direction:  ');
+del_x=(b_x)/(N_x+1);  %N_x+1 is the number of segments resulting from the existence of N_x internal points in x diection.
+del_y=(b_y)/(N_y+1);  %N_y+1 is the number of segments resulting from the existence of N_y internal points in y drection.
+del_t=((del_x*del_y)^2)/2((del_y^2)+(del_x^2));
+u_num_current=zeros(
+
