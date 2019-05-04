@@ -41,8 +41,8 @@ while average_difference> threshold_difference
     
     u_num_old=u_num_current; %When iterations continue through time, current values becomes old values
     u_num_current=u_num_newer; % And newer values become current values
-    diffence=abs(u_num_current-u_num_old);
-    average_difference=(1/total_elements)*sum(diffence(:));
+    difference=abs(u_num_current-u_num_old);
+    average_difference=(1/total_elements)*sum(difference(:));
 end
 [X,Y]=meshgrid(x_k,y_j);
 surf(X,Y,u_num_current)
