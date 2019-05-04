@@ -52,7 +52,7 @@ while average_difference>threshold_difference
         
         for I=2:N_x
             g(I)=right_side(I,k)-((b_and_c*g(I-1))/alpha(I-1));
-            g_neumann(I)=right_side(I,1)-((b_and_c*g_neumann(I-1))/alpha(I-1));
+            g_neumann(I)=right_side(I,1)-((b_and_c*g_neumann(I-1))/al
         end
             
             

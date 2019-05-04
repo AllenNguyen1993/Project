@@ -32,9 +32,11 @@ while average_difference> threshold_difference
     
      for i=2:N_x+1 
         u_num_newer(1,i)=D*(-2*sum_del*u_num_current(1,i)+del_y_squared*(u_num_current(1,i-1)+u_num_current(1,i+1))+2*del_x_squared*u_num_current(2,i))+u_num_current(1,i);
+        
         for j=2:N_y+1
             u_num_newer(j,i)=D*(-2*sum_del*u_num_current(j,i)+del_y_squared*(u_num_current(j,i-1)+u_num_current(j,i+1))+del_x_squared*(u_num_current(j-1,i)+u_num_current(j+1,i)))+u_num_current(j,i);
         end 
+        
      end 
     
     u_num_old=u_num_current; %When iterations continue through time, current values becomes old values
