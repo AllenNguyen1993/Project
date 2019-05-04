@@ -54,7 +54,20 @@ while average_difference>threshold_difference
             g(I)=right_side(I,k)-((b_and_c*g(I-1))/alpha(I-1));
             g_neumann(I)=right_side(I,1)-((b_and_c*g_neumann(I-1))/alpha(I-1));
         end
-            
+        
+        u_num_half(1,N_x+1)=g_neumann(N_x)/alpha(N_x);
+        u_num_half(k,N_x+1)=g(N_x)/alpha(N_x);
+        
+        for J=N_x:-1:2
+            u_num_half(1,J)=(g_neumann(J)-(b_c*u_num_half(1,J+1)))/alpha(J);
+            u_num_half(k,J)=(g(J)-(b_c*u_num_half(k,J+1)))/alpha(J);
+        end 
+        
+    end
+     
+    u_num_old=u_num_current
+    
+    for K
             
             
 
