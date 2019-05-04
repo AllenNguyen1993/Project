@@ -13,6 +13,10 @@ del_x=(b_x)/(N_x+1);  %N_x+1 is the number of segments resulting from the existe
 del_y=(b_y)/(N_y+1);  %N_y+1 is the number of segments resulting from the existence of N_y internal points in y drection.
 lamda=del_t/(del_x)^2;
 gamma=del_t/(del_y)^2;
+lamda_half=lamda/2;
+gamma_half=gamma/2;
+minus_lamda=1-lamda;
+minus_gamma=1-gamma;
 
 a=1+lamda; % a value is constant in space and time dimensions
 b_and_c=-(lamda/2); %b and c are constant and equal to each other
@@ -24,8 +28,8 @@ right_side=zeros(N_x,N_y+1);
 a_new=1+gamma; % "a" parameter for the new time step
 b_new=-(gamma/2); %"b" paramter for new time step
 c_new=[(-gamma);(-gamma/2)*ones(N_y,1)]; %"c" parameter for new time step
-alpha_new_1=
-alpha_new=
+alpha_new_1=a_new
+alpha_new=[alpha_new_1;zeros(N_y,1)];
 right_side_new=zeros(N_y+1,N_x); %right_side for the new time step
 
 index_x=0:N_x+1;
@@ -48,16 +52,16 @@ end
 
 while average_difference>threshold_difference
     current_time=current_time+del_t;
-    right_side(1,1)=
-    right_side(N_x,1)=
+    right_side(1,1)=(gamma)*u_num_current(2,2)+(minus_gamma)*u_num_current(1,2)+(lamda_half)*u_num_half(1,1);
+    right_side(N_x,1)=(gamma)*u_num_current(2,N_x+1)+(minus_gamma)*u_num_current(1,N_x+1)+(lamda_half)*u_num_half(1,N_x+2);
     
     for k=2:N_y+1
-        right_side(1,k)=
-        right_side(N_x,k)=
+        right_side(1,k)=(gamma_half)*u_num_current(k-1,2)+(minus_gamma)*u_num_current(k,2)+(gamma_half)*u_num_current(k+1,2)+(lamda_half)*u_num_current(k,1);
+        right_side(N_x,k)=(gamma_half)*u_num_current(k-1,N_x+1)+(minus_gamma)*u_num_current(k,N_x+1)+(gamma_half)*u_num_current(k+1,N_x+1)+(lamda_half)*u_num_current(k,N_x+2);
         
         for j=2:N_x-1
-            right_side(j,k)=
-            right_side(j,1)= 
+            right_side(j,k)=(gamma_half)*u_num_current(k-1,j+1)+(minus_gamma)*u_num_current(k,j+1)+(gamma_half)*u_num_current(k+1,j+1);
+            right_side(j,1)= (gamma)*u_num_current(k+1,j+1)+(minus_gamma)*u_num_current(k,2);
         end
         
         g_1=right_side(1,k)
@@ -83,10 +87,10 @@ while average_difference>threshold_difference
     u_num_old=u_num_current
     
     for K=1:N_x
-        rigt_side_new(N_y+1,K)=
+        right_side_new(N_y+1,K)=(lamda_half)*u_num_half()+(minus_lamda)*u_num_half()+(lamda_half)*u_num_half+(gamma_half)*u_num_half();
         
         for ii=1:N_y
-            right_side_new(ii,K)=
+            right_side_new(ii,K)=(lamda_half)*u_num_half(
         end
      
         g_new_1=right_side_new(1,K);
