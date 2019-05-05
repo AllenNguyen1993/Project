@@ -6,7 +6,7 @@ N_x=input('Please enter the number of internal points in x direction:  ');
 N_y=input('Please enter the nubmer of internal points in y direction:  ');
 del_t=input('please enter a value for delta t: '); %since ADI method is uncindtionally stable, del_t technically can be any thing, but error increases with del_t
 threshold_difference=input('please enter threshold value for average difference, 1e-12(recommended):  ');
-%This is threshold for average difference value under which temperature
+%This is threshold for  average difference value under which temperature
 %distribation is no longer chaning in time and iteration process stops.
 
 del_x=(b_x)/(N_x+1);  %N_x+1 is the number of segments resulting from the existence of N_x internal points in x diection.
@@ -27,7 +27,7 @@ right_side=zeros(N_x,N_y+1);
 
 a_new=1+gamma; % "a" parameter for the new time step
 b_new=-(gamma/2); %"b" paramter for new time step
-c_new=[(-gamma);(-gamma/2)*ones(N_y,1)]; %"c" parameter for new time step
+c_new=[(-gamma);(-gamma/2)*ones(N_y-1,1)];  %"c" parameter for new time step
 alpha_new_1=a_new;
 alpha_new=[alpha_new_1;zeros(N_y,1)];
 right_side_new=zeros(N_y+1,N_x); %right_side for the new time step
@@ -52,7 +52,7 @@ for i=2:N_x
 end
 
 for II=2:N_y+1
-    alpha_new(II)=a_new-((b_new*c_new(II-1))/alpha(II-1));
+    alpha_new(II)=a_new-((b_new*c_new(II-1))/alpha_new(II-1));
 end
 
 while average_difference>threshold_difference
@@ -60,13 +60,16 @@ while average_difference>threshold_difference
     right_side(1,1)=(gamma)*u_num_current(2,2)+(minus_gamma)*u_num_current(1,2)+(lamda_half)*u_num_half(1,1);
     right_side(N_x,1)=(gamma)*u_num_current(2,N_x+1)+(minus_gamma)*u_num_current(1,N_x+1)+(lamda_half)*u_num_half(1,N_x+2);
     
+    for KK=2:N_x-1
+        right_side(KK,1)= (gamma)*u_num_current(2,KK+1)+(minus_gamma)*u_num_current(1,KK+1);
+    end 
+    
     for k=2:N_y+1
         right_side(1,k)=(gamma_half)*u_num_current(k-1,2)+(minus_gamma)*u_num_current(k,2)+(gamma_half)*u_num_current(k+1,2)+(lamda_half)*u_num_half(k,1);
         right_side(N_x,k)=(gamma_half)*u_num_current(k-1,N_x+1)+(minus_gamma)*u_num_current(k,N_x+1)+(gamma_half)*u_num_current(k+1,N_x+1)+(lamda_half)*u_num_half(k,N_x+2);
         
         for j=2:N_x-1
             right_side(j,k)=(gamma_half)*u_num_current(k-1,j+1)+(minus_gamma)*u_num_current(k,j+1)+(gamma_half)*u_num_current(k+1,j+1);
-            right_side(j,1)= (gamma)*u_num_current(2,j+1)+(minus_gamma)*u_num_current(1,j+1);
         end
         
         g_1=right_side(1,k);
@@ -74,7 +77,7 @@ while average_difference>threshold_difference
         g=[g_1;zeros(N_x-1,1)];
         g_neumann=[g_1_neumann;zeros(N_x-1,1)];
         
-        for I=2:N_x
+         for I=2:N_x
             g(I)=right_side(I,k)-((b_and_c*g(I-1))/alpha(I-1));
             g_neumann(I)=right_side(I,1)-((b_and_c*g_neumann(I-1))/alpha(I-1));
         end
@@ -83,8 +86,8 @@ while average_difference>threshold_difference
         u_num_half(k,N_x+1)=g(N_x)/alpha(N_x);
         
         for J=N_x:-1:2
-            u_num_half(1,J)=(g_neumann(J)-(b_and_c*u_num_half(1,J+1)))/alpha(J);
-            u_num_half(k,J)=(g(J)-(b_and_c*u_num_half(k,J+1)))/alpha(J);
+            u_num_half(1,J)=(g_neumann(J-1)-(b_and_c*u_num_half(1,J+1)))/alpha(J); %Due to misalignment in indices between u in x direction and g
+            u_num_half(k,J)=(g(J-1)-(b_and_c*u_num_half(k,J+1)))/alpha(J);  % Care and caution must to taken here, for every index value in x, substract 1 to get corresding index in g.
         end 
         
     end
@@ -103,13 +106,13 @@ while average_difference>threshold_difference
         g_new=[g_new_1;zeros(N_y,1)];
         
         for jj=2:N_y+1
-            g_new(jj)=right_side_new(jj,K)-((b_new*g_new(jj-1))/alpha(jj-1));
+            g_new(jj)=right_side_new(jj,K)-((b_new*g_new(jj-1))/alpha_new(jj-1)); 
         end
          
         u_num_newer(N_y+1,K+1)=g_new(N_y+1)/alpha_new(N_y+1);
         
         for kk=N_y:-1:1
-            u_num_newer(kk,K+1)=(g_new(kk)-(c_new(kk)*u_num_newer(kk+1,K+1)))/alpha(kk);
+            u_num_newer(kk,K+1)=(g_new(kk)-(c_new(kk)*u_num_newer(kk+1,K+1)))/alpha_new(kk);
         end
     end
     u_num_current=u_num_newer;
@@ -117,6 +120,9 @@ while average_difference>threshold_difference
     average_difference=(1/total_elements)*sum(difference(:));
     
 end
+
+[X,Y]=meshgrid(x_k,y_j);
+surf(X,Y,u_num_current)
             
             
             
