@@ -64,6 +64,7 @@ while average_difference>threshold_difference
         right_side(KK,1)= (gamma)*u_num_current(2,KK+1)+(minus_gamma)*u_num_current(1,KK+1);
     end 
     
+    %This block iterates to get u at half time step along a row of u.
     for k=2:N_y+1
         right_side(1,k)=(gamma_half)*u_num_current(k-1,2)+(minus_gamma)*u_num_current(k,2)+(gamma_half)*u_num_current(k+1,2)+(lamda_half)*u_num_half(k,1);
         right_side(N_x,k)=(gamma_half)*u_num_current(k-1,N_x+1)+(minus_gamma)*u_num_current(k,N_x+1)+(gamma_half)*u_num_current(k+1,N_x+1)+(lamda_half)*u_num_half(k,N_x+2);
@@ -90,11 +91,11 @@ while average_difference>threshold_difference
             u_num_half(k,J)=(g(J-1)-(b_and_c*u_num_half(k,J+1)))/alpha(J);  % Care and caution must to taken here, for every index value in x, substract 1 to get corresding index in g.
         end 
         
-    end
+    end    
      
     u_num_old=u_num_current;
     
-    
+    %This block iterates to get at 1 newer time step along a column.
     for K=1:N_x
         right_side_new(N_y+1,K)=(lamda_half)*u_num_half(N_y+1,K)+(minus_lamda)*u_num_half(N_y+1,K+1)+(lamda_half)*u_num_half(N_y+1,K+2)+(gamma_half)*u_num_newer(N_y+2,K+1);
         
@@ -114,7 +115,8 @@ while average_difference>threshold_difference
         for kk=N_y:-1:1
             u_num_newer(kk,K+1)=(g_new(kk)-(c_new(kk)*u_num_newer(kk+1,K+1)))/alpha_new(kk);
         end
-    end
+    end       
+    
     u_num_current=u_num_newer;
     difference=abs(u_num_current-u_num_old);
     average_difference=(1/total_elements)*sum(difference(:));
@@ -123,10 +125,10 @@ end
 
 [X,Y]=meshgrid(x_k,y_j);
 surf(X,Y,u_num_current)
-plot_name=sprintf('2D Temperature Distribation');
+plot_name=sprintf('2D Temperature Distribution');
 info=sprintf('Number of internal points in x direction: %g\nNumber of internal points in y direction: %g\nDelta t: %1.12g',N_x,N_y,del_t)
-title(plot_name)
-text(4,5,240,info)
+title(plot_name);
+text(4,5,240,info);
 xlabel('X')
 ylabel('Y')
 zlabel('Temperature Distribuation')

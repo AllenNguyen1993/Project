@@ -90,7 +90,7 @@ while average_difference>threshold_difference
             u_num_half(k,J)=(g(J-1)-(b_and_c*u_num_half(k,J+1)))/alpha(J);  % Care and caution must to taken here, for every index value in x, substract 1 to get corresding index in g.
         end 
         
-    end
+    end     %This block iterates to get u at half time step
      
     u_num_old=u_num_current;
     
@@ -114,7 +114,8 @@ while average_difference>threshold_difference
         for kk=N_y:-1:1
             u_num_newer(kk,K+1)=(g_new(kk)-(c_new(kk)*u_num_newer(kk+1,K+1)))/alpha_new(kk);
         end
-    end
+    end        %This block iterates to get at 1 time step newer
+    
     u_num_current=u_num_newer;
     difference=abs(u_num_current-u_num_old);
     average_difference=(1/total_elements)*sum(difference(:));
@@ -123,9 +124,13 @@ end
 
 [X,Y]=meshgrid(x_k,y_j);
 surf(X,Y,u_num_current)
-plot_name=fprint('2D Temperature Distribation');
-info=sprintf('Number of internal points in x direction: %g \Number of internal points in y direction
-            
+plot_name=sprintf('2D Temperature Distribation');
+info=sprintf('Number of internal points in x direction: %g\nNumber of internal points in y direction: %g\nDelta t: %1.12g',N_x,N_y,del_t)
+title(plot_name)
+text(4,5,240,info)
+xlabel('X')
+ylabel('Y')
+zlabel('Temperature Distribuation')
             
             
             
