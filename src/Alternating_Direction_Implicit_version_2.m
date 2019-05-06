@@ -13,8 +13,8 @@ del_x=(b_x)/(N_x+1);  %N_x+1 is the number of segments resulting from the existe
 del_y=(b_y)/(N_y+1);  %N_y+1 is the number of segments resulting from the existence of N_y internal points in y drection.
 lamda=del_t/(del_x)^2;
 gamma=del_t/(del_y)^2;
-lamda_half=lamda/2;
-gamma_half=gamma/2;
+lamda_half=lamda/2; %These constant parameters help optimize the code since they don't have 
+gamma_half=gamma/2; %to be computed again and again in while and for loops
 minus_lamda=1-lamda;
 minus_gamma=1-gamma;
 
