@@ -60,10 +60,6 @@ while average_difference>threshold_difference
     right_side(1,1)=(gamma)*u_num_current(2,2)+(minus_gamma)*u_num_current(1,2)+(lamda_half)*u_num_half(1,1);
     right_side(N_x,1)=(gamma)*u_num_current(2,N_x+1)+(minus_gamma)*u_num_current(1,N_x+1)+(lamda_half)*u_num_half(1,N_x+2);
     
-    for KK=2:N_x-1
-        right_side(KK,1)= (gamma)*u_num_current(2,KK+1)+(minus_gamma)*u_num_current(1,KK+1);
-    end 
-    
     %This block iterates to get u at half time step along a row of u.
     for k=2:N_y+1
         right_side(1,k)=(gamma_half)*u_num_current(k-1,2)+(minus_gamma)*u_num_current(k,2)+(gamma_half)*u_num_current(k+1,2)+(lamda_half)*u_num_half(k,1);
@@ -71,6 +67,7 @@ while average_difference>threshold_difference
         
         for j=2:N_x-1
             right_side(j,k)=(gamma_half)*u_num_current(k-1,j+1)+(minus_gamma)*u_num_current(k,j+1)+(gamma_half)*u_num_current(k+1,j+1);
+            right_side(j,1)= (gamma)*u_num_current(2,j+1)+(minus_gamma)*u_num_current(1,j+1);
         end
         
         g_1=right_side(1,k);
@@ -87,8 +84,8 @@ while average_difference>threshold_difference
         u_num_half(k,N_x+1)=g(N_x)/alpha(N_x);
         
         for J=N_x:-1:2
-            u_num_half(1,J)=(g_neumann(J-1)-(b_and_c*u_num_half(1,J+1)))/alpha(J); %Due to misalignment in indices between u in x direction and g
-            u_num_half(k,J)=(g(J-1)-(b_and_c*u_num_half(k,J+1)))/alpha(J);  % Care and caution must to taken here, for every index value in x, substract 1 to get corresding index in g.
+            u_num_half(1,J)=(g_neumann(J-1)-(b_and_c*u_num_half(1,J+1)))/alpha(J-1); %Due to misalignment in indices between u in x direction and g
+            u_num_half(k,J)=(g(J-1)-(b_and_c*u_num_half(k,J+1)))/alpha(J-1);  % Care and caution must to taken here, for every index value in x, substract 1 to get corresding index in g.
         end 
         
     end    
@@ -126,7 +123,7 @@ end
 [X,Y]=meshgrid(x_k,y_j);
 surf(X,Y,u_num_current)
 plot_name=sprintf('2D Temperature Distribution');
-info=sprintf('Number of internal points in x direction: %g\nNumber of internal points in y direction: %g\nDelta t: %1.12g',N_x,N_y,del_t)
+info=sprintf('Number of internal points in x direction: %g\nNumber of internal points in y direction: %g\nDelta t: %1.12g\nMethod: ADI',N_x,N_y,del_t)
 title(plot_name);
 text(4,5,240,info);
 xlabel('X')

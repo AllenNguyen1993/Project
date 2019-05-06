@@ -48,7 +48,7 @@ end
 [X,Y]=meshgrid(x_k,y_j);
 surf(X,Y,u_num_current)
 plot_name=sprintf('2D Temperature Distribution');
-info=sprintf('Number of internal points in x direction: %g\nNumber of internal points in y direction: %g\nDelta t: %1.12g',N_x,N_y,del_t)
+info=sprintf('Number of internal points in x direction: %g\nNumber of internal points in y direction: %g\nDelta t: %1.12g\nMethod: Explicit',N_x,N_y,del_t)
 title(plot_name)
 text(4,5,240,info)
 xlabel('X')
