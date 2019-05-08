@@ -65,9 +65,20 @@ while average_difference>threshold_difference
         right_side(1,k)=(gamma_half)*u_num_current(k-1,2)+(minus_gamma)*u_num_current(k,2)+(gamma_half)*u_num_current(k+1,2)+(lamda_half)*u_num_half(k,1);
         right_side(N_x,k)=(gamma_half)*u_num_current(k-1,N_x+1)+(minus_gamma)*u_num_current(k,N_x+1)+(gamma_half)*u_num_current(k+1,N_x+1)+(lamda_half)*u_num_half(k,N_x+2);
         
-        for j=2:N_x-1
+        for j=2:4:N_x-1
             right_side(j,k)=(gamma_half)*u_num_current(k-1,j+1)+(minus_gamma)*u_num_current(k,j+1)+(gamma_half)*u_num_current(k+1,j+1);
+            right_side(j+1,k)=(gamma_half)*u_num_current(k-1,j+2)+(minus_gamma)*u_num_current(k,j+2)+(gamma_half)*u_num_current(k+1,j+2);
+            right_side(j+2,k)=(gamma_half)*u_num_current(k-1,j+3)+(minus_gamma)*u_num_current(k,j+3)+(gamma_half)*u_num_current(k+1,j+3);
+            right_side(j+3,k)=(gamma_half)*u_num_current(k-1,j+4)+(minus_gamma)*u_num_current(k,j+4)+(gamma_half)*u_num_current(k+1,j+4);
             right_side(j,1)= (gamma)*u_num_current(2,j+1)+(minus_gamma)*u_num_current(1,j+1);
+            right_side(j+1,1)=(gamma)*u_num_current(2,j+2)+(minus_gamma)*u_num_current(1,j+2);
+            right_side(j+2,1)=(gamma)*u_num_current(2,j+3)+(minus_gamma)*u_num_current(1,j+3);
+            right_side(j+3,1)=(gamma)*u_num_current(2,j+4)+(minus_gamma)*u_num_current(1,j+4);
+        end
+          
+        for JJ=j:N_x-1
+            right_side(JJ,k)=(gamma_half)*u_num_current(k-1,JJ+1)+(minus_gamma)*u_num_current(k,JJ+1)+(gamma_half)*u_num_current(k+1,JJ+1);
+            right_side(JJ,1)= (gamma)*u_num_current(2,JJ+1)+(minus_gamma)*u_num_current(1,JJ+1);
         end
         
         g_1=right_side(1,k);
