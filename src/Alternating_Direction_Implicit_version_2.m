@@ -8,6 +8,7 @@ del_t=input('please enter a value for delta t: '); %since ADI method is uncindti
 threshold_difference=input('please enter threshold value for average difference, 1e-12(recommended):  ');
 %This is threshold for  average difference value under which temperature
 %distribation is no longer chaning in time and iteration process stops.
+time_interval=tic
 
 del_x=(b_x)/(N_x+1);  %N_x+1 is the number of segments resulting from the existence of N_x internal points in x diection.
 del_y=(b_y)/(N_y+1);  %N_y+1 is the number of segments resulting from the existence of N_y internal points in y drection.
@@ -65,7 +66,7 @@ while average_difference>threshold_difference
         right_side(1,k)=(gamma_half)*u_num_current(k-1,2)+(minus_gamma)*u_num_current(k,2)+(gamma_half)*u_num_current(k+1,2)+(lamda_half)*u_num_half(k,1);
         right_side(N_x,k)=(gamma_half)*u_num_current(k-1,N_x+1)+(minus_gamma)*u_num_current(k,N_x+1)+(gamma_half)*u_num_current(k+1,N_x+1)+(lamda_half)*u_num_half(k,N_x+2);
         
-        for j=2:4:N_x-1
+        for j=2:4:N_x-1-4
             right_side(j,k)=(gamma_half)*u_num_current(k-1,j+1)+(minus_gamma)*u_num_current(k,j+1)+(gamma_half)*u_num_current(k+1,j+1);
             right_side(j+1,k)=(gamma_half)*u_num_current(k-1,j+2)+(minus_gamma)*u_num_current(k,j+2)+(gamma_half)*u_num_current(k+1,j+2);
             right_side(j+2,k)=(gamma_half)*u_num_current(k-1,j+3)+(minus_gamma)*u_num_current(k,j+3)+(gamma_half)*u_num_current(k+1,j+3);
@@ -77,7 +78,7 @@ while average_difference>threshold_difference
             right_side(j+3,1)=(gamma)*u_num_current(2,j+4)+(minus_gamma)*u_num_current(1,j+4);
         end
           
-        for JJ=j+1:N_x-1
+        for JJ=j+4:N_x-1
             right_side(JJ,k)=(gamma_half)*u_num_current(k-1,JJ+1)+(minus_gamma)*u_num_current(k,JJ+1)+(gamma_half)*u_num_current(k+1,JJ+1);
             right_side(JJ,1)= (gamma)*u_num_current(2,JJ+1)+(minus_gamma)*u_num_current(1,JJ+1);
         end
@@ -141,7 +142,8 @@ text(4,5,240,info);
 xlabel('X')
 ylabel('Y')
 zlabel('Temperature Distribuation')
-            
+
+toc          
             
             
 
