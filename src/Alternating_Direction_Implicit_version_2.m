@@ -72,12 +72,20 @@ while average_difference>threshold_difference
             right_side(j+2,k)=(gamma_half)*u_num_current(k-1,j+3)+(minus_gamma)*u_num_current(k,j+3)+(gamma_half)*u_num_current(k+1,j+3);
             right_side(j+3,k)=(gamma_half)*u_num_current(k-1,j+4)+(minus_gamma)*u_num_current(k,j+4)+(gamma_half)*u_num_current(k+1,j+4);
             right_side(j+4,k)=(gamma_half)*u_num_current(k-1,j+5)+(minus_gamma)*u_num_current(k,j+5)+(gamma_half)*u_num_current(k+1,j+5);
+            %right_side(j+5,k)=(gamma_half)*u_num_current(k-1,j+6)+(minus_gamma)*u_num_current(k,j+6)+(gamma_half)*u_num_current(k+1,j+6);
+            %right_side(j+6,k)=(gamma_half)*u_num_current(k-1,j+7)+(minus_gamma)*u_num_current(k,j+7)+(gamma_half)*u_num_current(k+1,j+7);
+            %right_side(j+7,k)=(gamma_half)*u_num_current(k-1,j+8)+(minus_gamma)*u_num_current(k,j+8)+(gamma_half)*u_num_current(k+1,j+8);
+            %right_side(j+8,k)=(gamma_half)*u_num_current(k-1,j+9)+(minus_gamma)*u_num_current(k,j+9)+(gamma_half)*u_num_current(k+1,j+9);
             
             right_side(j,1)= (gamma)*u_num_current(2,j+1)+(minus_gamma)*u_num_current(1,j+1);
             right_side(j+1,1)=(gamma)*u_num_current(2,j+2)+(minus_gamma)*u_num_current(1,j+2);
             right_side(j+2,1)=(gamma)*u_num_current(2,j+3)+(minus_gamma)*u_num_current(1,j+3);
             right_side(j+3,1)=(gamma)*u_num_current(2,j+4)+(minus_gamma)*u_num_current(1,j+4);
             right_side(j+4,1)=(gamma)*u_num_current(2,j+5)+(minus_gamma)*u_num_current(1,j+5);
+            %right_side(j+5,1)=(gamma)*u_num_current(2,j+6)+(minus_gamma)*u_num_current(1,j+6);
+           % right_side(j+6,1)=(gamma)*u_num_current(2,j+7)+(minus_gamma)*u_num_current(1,j+7);
+            %right_side(j+7,1)=(gamma)*u_num_current(2,j+8)+(minus_gamma)*u_num_current(1,j+8);
+            %right_side(j+8,1)=(gamma)*u_num_current(2,j+9)+(minus_gamma)*u_num_current(1,j+9);
         end
           
         for JJ=j+5:N_x-1
@@ -111,18 +119,19 @@ while average_difference>threshold_difference
     for K=1:N_x
         right_side_new(N_y+1,K)=(lamda_half)*u_num_half(N_y+1,K)+(minus_lamda)*u_num_half(N_y+1,K+1)+(lamda_half)*u_num_half(N_y+1,K+2)+(gamma_half)*u_num_newer(N_y+2,K+1);
         
-        for ii=1:8:N_y-7
+        for ii=1:5:N_y-4
             right_side_new(ii,K)=(lamda_half)*u_num_half(ii,K)+(minus_lamda)*u_num_half(ii,K+1)+(lamda_half)*u_num_half(ii,K+2);
             right_side_new(ii+1,K)=(lamda_half)*u_num_half(ii+1,K)+(minus_lamda)*u_num_half(ii+1,K+1)+(lamda_half)*u_num_half(ii+1,K+2);
             right_side_new(ii+2,K)=(lamda_half)*u_num_half(ii+2,K)+(minus_lamda)*u_num_half(ii+2,K+1)+(lamda_half)*u_num_half(ii+2,K+2);
             right_side_new(ii+3,K)=(lamda_half)*u_num_half(ii+3,K)+(minus_lamda)*u_num_half(ii+3,K+1)+(lamda_half)*u_num_half(ii+3,K+2);
-            right_side_new(ii+4,K)=(lamda_half)*u_num_half(ii+4,K)+(minus_lamda),*u_num_half(ii+4,K+1)+(lamda_half)*u_num_half(ii+4,K+2);
-            right_side_new(ii+5,K)=(lamda_half)*u_num_half(ii+5,K)+(minus_lamda)*u_num_half(ii+5,K+1)+(lamda_half)*u_num_half(ii+5,K+2);
-            right_side_new(ii+6,K)=(lamda_half)*u_num_half(ii+6,K)+(minus_lamda)*u_num_half(ii+6,K+1)+(lamda_half)*u_num_half(ii+6,K+2);
-            right-side_new(ii+7,K)=(lamda_half)*u_num_half(ii+7,K)+(minus_lamda)*u_num_half(ii+7,K+1)+(lamda_half)*u_num_half(ii+7,K+2);
+            right_side_new(ii+4,K)=(lamda_half)*u_num_half(ii+4,K)+(minus_lamda)*u_num_half(ii+4,K+1)+(lamda_half)*u_num_half(ii+4,K+2);
+            %right_side_new(ii+5,K)=(lamda_half)*u_num_half(ii+5,K)+(minus_lamda)*u_num_half(ii+5,K+1)+(lamda_half)*u_num_half(ii+5,K+2);
+            %right_side_new(ii+6,K)=(lamda_half)*u_num_half(ii+6,K)+(minus_lamda)*u_num_half(ii+6,K+1)+(lamda_half)*u_num_half(ii+6,K+2);
+            %right_side_new(ii+7,K)=(lamda_half)*u_num_half(ii+7,K)+(minus_lamda)*u_num_half(ii+7,K+1)+(lamda_half)*u_num_half(ii+7,K+2);
+            %right_side_new(ii+8,K)=(lamda_half)*u_num_half(ii+8,K)+(minus_lamda)*u_num_half(ii+8,K+1)+(lamda_half)*u_num_half(ii+8,K+2);
         end
         
-        for KK=ii+8:N_y-7
+        for KK=ii+5:N_y
             right_side_new(KK,K)=(lamda_half)*u_num_half(KK,K)+(minus_lamda)*u_num_half(KK,K+1)+(lamda_half)*u_num_half(KK,K+2);
         end
         
